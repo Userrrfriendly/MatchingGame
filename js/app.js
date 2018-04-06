@@ -7,7 +7,7 @@ const restartIcon = document.querySelector('.fa-repeat');
 let game = {
     state: 'game-over',
     openedCard:'',
-    openedIcon: '',
+    iconClass: "",
     moves: 0,
     matchedCards: 0,
     score: 3
@@ -16,11 +16,68 @@ let game = {
 function resetGame() {
     game.state= 'live';
     game.openedCard= '';
-    game.openedIcon= '';
+    game.iconClass= "";
     game.moves= 0;
     game.matchedCards= 0;
     game.score= 3;
 }
+
+function checkState(node, iconClass) {
+    switch (game.state) {
+        case 'live' :
+            flipCard(node);
+            node.classList.add('open');
+            game.state = 'inspection';
+            game.openedCard = node;
+            game.iconClass = iconClass;
+            game.moves +=1;
+            document.querySelector('.moves').textContent = game.moves;
+            break;
+        case 'inspection':
+            flipCard(node);
+            if (game.iconClass === iconClass) {
+                node.classList.add('matched', 'open');
+                game.openedCard.classList.add('matched');
+                game.state = 'live';
+                game.openedCard = '';
+                game.iconClass = '';
+                // game.moves +=1; i'd rather not change it here
+                game.matchedCards += 1;
+            } else {
+                console.log(game.openedCard.classList);
+                game.openedCard.classList.remove('open');
+                const tempGameValue = game.openedCard //it is here because of the setTimeout
+                setTimeout(function() {
+                    tempGameValue.classList.remove('flipped');
+                    node.classList.remove('flipped');
+                }, 1000)
+                game.openedCard = '';
+                game.state = 'live';
+                game.iconClass = '';
+                // game.moves +=1; i'd rather not change it here
+            }
+            break;
+        case 'game-over':
+            //
+            break;
+    }
+} 
+
+function flipCard(node) {
+    node.classList.toggle('flipped');
+}
+
+function getIconClass(classList) {
+    let icon = "";
+
+    for (let i = 0; i < classList.length; i++) {
+        if (classList.item(i).startsWith('fa-')) {
+            icon = classList.item(i);
+        }
+    }
+    return icon;
+}
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -111,13 +168,21 @@ renderDeck();
 deckContainer.addEventListener('click', cardClick);
 
 function cardClick(e) {
-    if (e.target.nodeName === 'FIGURE' && e.target.parentElement.classList.contains('card')) {
+    if (e.target.nodeName === 'FIGURE' && e.target.classList.contains('front')) {
         //e.target.parentElement.classList.toggle('flipped');  //flip me
         //PUT AN IF HERE TO CHECK IF IT HAS CLASS '.OPENED' BEFORE PASSING THE NODE TO CHECKSTATE(NODE)
-    } else if (e.target.nodeName === 'I' && e.target.parentElement.classList.contains('card-figure')) {
-        // e.target.parentElement.classList.contains('card-figure'); 
-        // e.target.parentElement.parentElement.classList.toggle('flipped'); //flip me
-    }
+        if (!e.target.parentElement.classList.contains('open')) {
+            checkState(e.target.parentElement, getIconClass(e.target.nextElementSibling.firstElementChild.classList));
+        }
+        //AT THIS POINT I HAVE A FEELING THAT THE ELSE IF IS NOT NEEDED!!!!!!!!!!!!! SINCE WE WILL ALWAYS TARGET A CLOSED CARD
+    } 
+    // else if (e.target.nodeName === 'I' && e.target.parentElement.classList.contains('card-figure')) {
+    //     // e.target.parentElement.classList.contains('card-figure'); 
+    //     // e.target.parentElement.parentElement.classList.toggle('flipped'); //flip me
+    //     if (e.target.parentElement.parentElement.classList.contains('open')) {
+    //         checkState(e.target.parentElement.parentElement, e.target.classList);
+    //     }
+    // }
 }
 
 restartIcon.addEventListener('click', renderDeck);
@@ -125,24 +190,6 @@ restartIcon.addEventListener('click', renderDeck);
 
 
 //
-function checkState(node) {
-    switch (node) {
-        case 'live' :
-            flipCard(node);
-            game.state = 'inspection';
-            game.card = node;
-            game.icon = "node.clas..;";
-            game.moves +=1;
-
-            break;
-        case 'inspection':
-            //
-            break;
-        case 'game-over':
-            //
-            break;
-    }
-} 
 
 
 /* 
@@ -153,10 +200,10 @@ CARD STATE:
     
     CARD:
     -CLOSED
-        ~OPEN THIS: ADD CLASS OPEN THO THIS
+        ~OPEN THIS: ADD CLASS .OPENED THO THIS
             *game.state = 'opened-card'
             *game.card = e.target...
-            *game.icon = e....
+            *game.iconClass = e....
             *game.moves +=1
     
         ~IF THIS CARD MATCHES THE CARD IN THE GAME-STATE:
@@ -185,4 +232,22 @@ CARD STATE:
 -ask mentors how to calculate height acording to width
 -add a google font that will look like its an arcade game
 --ned to add icon click condition on the event listener
+--THIS IS MUST do something about the setTimeout when the user makes a mistake he can keep flipping cards
 */
+
+// function cardClick(e) {
+//     if (e.target.nodeName === 'FIGURE' && e.target.parentElement.classList.contains('card')) {
+//         //e.target.parentElement.classList.toggle('flipped');  //flip me
+//         //PUT AN IF HERE TO CHECK IF IT HAS CLASS '.OPENED' BEFORE PASSING THE NODE TO CHECKSTATE(NODE)
+//         if (!e.target.parentElement.classList.contains('opened')) {
+//             checkState(e.target.parentElement);
+//         }
+//         //AT THIS POINT I HAVE A FEELING THAT THE ELSE IF IS NOT NEEDED!!!!!!!!!!!!! SINCE WE WILL ALWAYS TARGET A CLOSED CARD
+//     } else if (e.target.nodeName === 'I' && e.target.parentElement.classList.contains('card-figure')) {
+//         // e.target.parentElement.classList.contains('card-figure'); 
+//         // e.target.parentElement.parentElement.classList.toggle('flipped'); //flip me
+//         if (e.target.parentElement.parentElement.classList.contains('opened')) {
+//             checkState(e.target.parentElement.parentElement, e.target.classList);
+//         }
+//     }
+// }

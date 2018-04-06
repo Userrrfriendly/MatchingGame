@@ -95,6 +95,9 @@ img {
     transform: rotateY( 180deg );
 }
 
+.matched .back {
+    background: green;
+}
 
 /* MEDIA - medium - big screens */
 
