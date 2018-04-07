@@ -16,6 +16,40 @@ body {
     padding: 0;
 }
 /* Test CSS */
+/* start rotate */
+
+/* .restart {
+    transition: transform 0.6s linear;
+    display: inline-block;
+}
+.rotateIcon {
+    transform: rotateZ( 360deg );
+}
+.rotateIconContainer {
+    transform: rotateZ( 360deg );
+}  */
+/* 
+
+*/
+.rotate {
+    animation: 0.5s rotate-Z;
+    animation-timing-function: linear;
+}
+
+.restart {
+    display: inline-block;
+}
+
+@keyframes rotate-Z {
+    0%   { transform: rotateZ(0deg ); } 
+    25%  { transform: rotateZ(90deg ); }
+    50%  { transform: rotateZ(180deg ); }
+    75% { transform: rotateZ(270deg ); }
+    100% { transform: rotateZ(360deg ); }
+}
+
+
+/* end rotate */
 
 .deck {
     display: flex;
@@ -77,7 +111,7 @@ img {
     height: 100%;
     position: absolute;
     transform-style: preserve-3d;
-    transition: transform 1s;
+    transition: transform 0.5s;
 }
 
 .card-figure {

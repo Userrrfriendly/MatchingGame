@@ -2,7 +2,7 @@ let cardArray = ["fa-diamond", "fa-paper-plane-o","fa-anchor","fa-bolt",
 "fa-cube","fa-leaf","fa-bicycle","fa-bomb","fa-diamond",
 "fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-leaf","fa-bicycle","fa-bomb"];
 const deckContainer = document.querySelector('.deck-container');
-const container = document.querySelector('.container');
+const container = document.querySelector('.container'); //i think its redundant so far
 const restartIcon = document.querySelector('.fa-repeat');
 const timerDisplay = document.querySelector('.timer');
 //any reason why you didnt use querSelectorAll to catch em all? REFACTOR
@@ -31,7 +31,7 @@ function resetGame() {
     game.score= 3;
     game.totalTime= 0;
     document.querySelector('.moves').textContent = game.moves;
-    for (let i = 0; i <3; i++) {
+    for (let i = 1; i <3; i++) {
         stars[i].classList.remove('faded-star');
     }
     count = 0;
@@ -127,11 +127,6 @@ function score() {
 
 function clock(bool) {
     //if true start timer ... if false stop timer
-    // if (bool) {
-    //     startTimer();
-    // } else {
-    //     stopTimer();
-    // }
     bool ? startTimer() : stopTimer();
 
     function startTimer() {
@@ -155,22 +150,6 @@ function updateTime() {
     }
 }
 
-// function timer(bool) {
-    
-//     let timerID = window.setInterval(startTimer, 1000);
-//     function startTimer() {
-//         console.log(countSeconds);
-//         countSeconds +=1;
-//     }
-//     function stop() {
-//         clearInterval(timerID);
-//     }
-//     //  countSeconds: 0,
-//     //  timerID: window.setInterval(startTimer, 1000),
-//     //  startTimer: ()=> {console.log(countSeconds)};
-//     //
-
-// }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -261,25 +240,30 @@ deckContainer.addEventListener('click', cardClick);
 
 function cardClick(e) {
     if (e.target.nodeName === 'FIGURE' && e.target.classList.contains('front')) {
-        //e.target.parentElement.classList.toggle('flipped');  //flip me
         //PUT AN IF HERE TO CHECK IF IT HAS CLASS '.OPENED' BEFORE PASSING THE NODE TO CHECKSTATE(NODE)
         if (!e.target.parentElement.classList.contains('open')) {
             checkState(e.target.parentElement, getIconClass(e.target.nextElementSibling.firstElementChild.classList));
         }
-        //AT THIS POINT I HAVE A FEELING THAT THE ELSE IF IS NOT NEEDED!!!!!!!!!!!!! SINCE WE WILL ALWAYS TARGET A CLOSED CARD
     } 
-    // else if (e.target.nodeName === 'I' && e.target.parentElement.classList.contains('card-figure')) {
-    //     // e.target.parentElement.classList.contains('card-figure'); 
-    //     // e.target.parentElement.parentElement.classList.toggle('flipped'); //flip me
-    //     if (e.target.parentElement.parentElement.classList.contains('open')) {
-    //         checkState(e.target.parentElement.parentElement, e.target.classList);
-    //     }
-    // }
 }
 
-restartIcon.addEventListener('click', renderDeck);
+// const restartIcon2 = document.querySelector('.restart');
+restartIcon.addEventListener('click', function(e) {
+    rotateElement(e);
+    renderDeck();  
+});
 
 
+function rotateElement(e) {
+    if(!e.target.classList.contains('rotate')) {
+        e.target.classList.add('rotate');
+        e.target.parentElement.classList.remove('rotate');
+    } 
+    else {
+        e.target.classList.remove('rotate');
+        e.target.parentElement.classList.add('rotate');
+    }
+}
 /* 
 CARD STATE:
     *GAME-STATE:LIVE
@@ -319,52 +303,9 @@ CARD STATE:
 -add normalize.css
 -ask mentors how to calculate height acording to width
 -add a google font that will look like its an arcade game
---ned to add icon click condition on the event listener
 --THIS IS MUST do something about the setTimeout when the user makes a mistake he can keep flipping cards
 --GAMEOVER state is not really usefull
---animate the rotate icon (rotate it :P)
 --update moves it is counterintuitive now
+--
 */
 
-// function cardClick(e) {
-//     if (e.target.nodeName === 'FIGURE' && e.target.parentElement.classList.contains('card')) {
-//         //e.target.parentElement.classList.toggle('flipped');  //flip me
-//         //PUT AN IF HERE TO CHECK IF IT HAS CLASS '.OPENED' BEFORE PASSING THE NODE TO CHECKSTATE(NODE)
-//         if (!e.target.parentElement.classList.contains('opened')) {
-//             checkState(e.target.parentElement);
-//         }
-//         //AT THIS POINT I HAVE A FEELING THAT THE ELSE IF IS NOT NEEDED!!!!!!!!!!!!! SINCE WE WILL ALWAYS TARGET A CLOSED CARD
-//     } else if (e.target.nodeName === 'I' && e.target.parentElement.classList.contains('card-figure')) {
-//         // e.target.parentElement.classList.contains('card-figure'); 
-//         // e.target.parentElement.parentElement.classList.toggle('flipped'); //flip me
-//         if (e.target.parentElement.parentElement.classList.contains('opened')) {
-//             checkState(e.target.parentElement.parentElement, e.target.classList);
-//         }
-//     }
-// }
-
-// let timer = {
-//     countSeconds: 0,
-//     timerID: window.setInterval(function() {console.log(timer.countSeconds);timer.countSeconds+=1;}, 1000),
-//     startTimer: function() {
-//         console.log(this.countSeconds);
-//         this.countSeconds +=1;
-//     },
-//     stopTimer: function() {
-//         clearInterval(timer.timerID);
-//     }
-
-// }
-
-// function score() {
-//     if (game.moves > 40) {
-//         game.score = 0;
-//         stars[0].classList.add('faded-star');
-//     } else  if (game.moves > 25 ) {
-//         game.score = 1;
-//         stars[1].classList.add('faded-star');
-//     } else if (game.moves > 15) {
-//         game.score = 2
-//         stars[2].classList.add('faded-star');
-//     }
-// }
