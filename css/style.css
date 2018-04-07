@@ -54,6 +54,14 @@ img {
     list-style: none;
     display: inline-block;
 }
+
+.fa-star {
+    color: gold;
+}
+
+.faded-star {
+    color: grey;
+}
 /* CARD FLIPPING */
 
 .card-container { 

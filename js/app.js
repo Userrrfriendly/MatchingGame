@@ -1,29 +1,60 @@
-const deckContainer = document.querySelector('.deck-container');
 let cardArray = ["fa-diamond", "fa-paper-plane-o","fa-anchor","fa-bolt",
 "fa-cube","fa-leaf","fa-bicycle","fa-bomb","fa-diamond",
 "fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-leaf","fa-bicycle","fa-bomb"];
+const deckContainer = document.querySelector('.deck-container');
 const container = document.querySelector('.container');
 const restartIcon = document.querySelector('.fa-repeat');
+const timerDisplay = document.querySelector('.timer');
+//any reason why you didnt use querSelectorAll to catch em all? REFACTOR
+const stars = [document.querySelector('.stars').firstElementChild.firstElementChild,
+    document.querySelector('.stars').firstElementChild.nextElementSibling.firstElementChild,
+    document.querySelector('.stars').lastElementChild.firstElementChild]
 let game = {
-    state: 'game-over',
+    state: '',
     openedCard:'',
     iconClass: "",
     moves: 0,
     matchedCards: 0,
-    score: 3
+    score: 3,
+    // seconds: 0,
+    totalTime: 0
 };
+let timeoutID;
+let count = 1;
 
 function resetGame() {
-    game.state= 'live';
+    game.state= 'ready';
     game.openedCard= '';
     game.iconClass= "";
     game.moves= 0;
     game.matchedCards= 0;
     game.score= 3;
+    game.totalTime= 0;
+    document.querySelector('.moves').textContent = game.moves;
+    for (let i = 0; i <3; i++) {
+        stars[i].classList.remove('faded-star');
+    }
+    count = 0;
+    updateTime();
+    clock(false);
 }
 
 function checkState(node, iconClass) {
     switch (game.state) {
+        //
+        case 'ready' :
+            flipCard(node);
+            node.classList.add('open');
+            game.state = 'inspection';
+            game.openedCard = node;
+            game.iconClass = iconClass;
+            game.moves +=1;
+            score();
+            document.querySelector('.moves').textContent = game.moves;
+            updateTime();
+            clock(true);
+            break;
+        //
         case 'live' :
             flipCard(node);
             node.classList.add('open');
@@ -31,6 +62,7 @@ function checkState(node, iconClass) {
             game.openedCard = node;
             game.iconClass = iconClass;
             game.moves +=1;
+            score();
             document.querySelector('.moves').textContent = game.moves;
             break;
         case 'inspection':
@@ -41,10 +73,9 @@ function checkState(node, iconClass) {
                 game.state = 'live';
                 game.openedCard = '';
                 game.iconClass = '';
-                // game.moves +=1; i'd rather not change it here
-                game.matchedCards += 1;
+                game.matchedCards === 7 ? gameOver() : game.matchedCards += 1;
+                // 
             } else {
-                console.log(game.openedCard.classList);
                 game.openedCard.classList.remove('open');
                 const tempGameValue = game.openedCard //it is here because of the setTimeout
                 setTimeout(function() {
@@ -54,11 +85,11 @@ function checkState(node, iconClass) {
                 game.openedCard = '';
                 game.state = 'live';
                 game.iconClass = '';
-                // game.moves +=1; i'd rather not change it here
             }
             break;
         case 'game-over':
-            //
+            //need to display a message nothing more maybe a funny animation or smth!
+            clock(false);
             break;
     }
 } 
@@ -69,7 +100,6 @@ function flipCard(node) {
 
 function getIconClass(classList) {
     let icon = "";
-
     for (let i = 0; i < classList.length; i++) {
         if (classList.item(i).startsWith('fa-')) {
             icon = classList.item(i);
@@ -78,6 +108,69 @@ function getIconClass(classList) {
     return icon;
 }
 
+function gameOver() {
+    console.log('GAME OVER');
+    game.totalTime = count;
+    clock(false);
+    //DO STUFF
+}
+
+function score() {
+    if (game.moves > 15 && game.moves < 26) {
+        game.score = 2
+        stars[2].classList.add('faded-star');
+    } else if (game.moves > 25) {
+        game.score = 1;
+        stars[1].classList.add('faded-star');
+    }
+}
+
+function clock(bool) {
+    //if true start timer ... if false stop timer
+    // if (bool) {
+    //     startTimer();
+    // } else {
+    //     stopTimer();
+    // }
+    bool ? startTimer() : stopTimer();
+
+    function startTimer() {
+        timeoutID = window.setInterval(updateTime, 1000);
+    }
+    function stopTimer() {
+        clearInterval(timeoutID);
+        count = 1;
+    }
+}
+
+function updateTime() {
+    if (count >= 60) {
+        const mins = Math.trunc(count/60);
+        const secs = count - mins * 60;
+        secs < 10 ? timerDisplay.textContent = mins + ':0' + secs : timerDisplay.textContent = mins + ':' + secs;
+        count +=1;
+    } else {
+        count < 10 ? timerDisplay.textContent = '00:0' + count : timerDisplay.textContent = '00:' + count;
+        count += 1;
+    }
+}
+
+// function timer(bool) {
+    
+//     let timerID = window.setInterval(startTimer, 1000);
+//     function startTimer() {
+//         console.log(countSeconds);
+//         countSeconds +=1;
+//     }
+//     function stop() {
+//         clearInterval(timerID);
+//     }
+//     //  countSeconds: 0,
+//     //  timerID: window.setInterval(startTimer, 1000),
+//     //  startTimer: ()=> {console.log(countSeconds)};
+//     //
+
+// }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -117,8 +210,7 @@ function makeDeck() {
 }
 
 function makeCard(cardArrayIndex) {
-    //YOU CAN TRY AND REFACTORE IT WITH node.cloneNode();
-
+    //YOU CAN TRY AND REFACTORE IT WITH Node.cloneNode();
     /*
         -backFigure.appendChild(icon)
         -divCard.append(frontfigure)
@@ -188,10 +280,6 @@ function cardClick(e) {
 restartIcon.addEventListener('click', renderDeck);
 
 
-
-//
-
-
 /* 
 CARD STATE:
     *GAME-STATE:LIVE
@@ -223,7 +311,7 @@ CARD STATE:
  *  - if the list already has another card, check to see if the two cards match
  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
  *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *    + increment the move countSecondser and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
@@ -233,6 +321,9 @@ CARD STATE:
 -add a google font that will look like its an arcade game
 --ned to add icon click condition on the event listener
 --THIS IS MUST do something about the setTimeout when the user makes a mistake he can keep flipping cards
+--GAMEOVER state is not really usefull
+--animate the rotate icon (rotate it :P)
+--update moves it is counterintuitive now
 */
 
 // function cardClick(e) {
@@ -249,5 +340,31 @@ CARD STATE:
 //         if (e.target.parentElement.parentElement.classList.contains('opened')) {
 //             checkState(e.target.parentElement.parentElement, e.target.classList);
 //         }
+//     }
+// }
+
+// let timer = {
+//     countSeconds: 0,
+//     timerID: window.setInterval(function() {console.log(timer.countSeconds);timer.countSeconds+=1;}, 1000),
+//     startTimer: function() {
+//         console.log(this.countSeconds);
+//         this.countSeconds +=1;
+//     },
+//     stopTimer: function() {
+//         clearInterval(timer.timerID);
+//     }
+
+// }
+
+// function score() {
+//     if (game.moves > 40) {
+//         game.score = 0;
+//         stars[0].classList.add('faded-star');
+//     } else  if (game.moves > 25 ) {
+//         game.score = 1;
+//         stars[1].classList.add('faded-star');
+//     } else if (game.moves > 15) {
+//         game.score = 2
+//         stars[2].classList.add('faded-star');
 //     }
 // }
