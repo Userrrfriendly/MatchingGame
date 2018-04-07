@@ -14,6 +14,8 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Monoton', cursive;
+    letter-spacing: 0.1rem;
 }
 /* Test CSS */
 /* start rotate */
@@ -54,8 +56,8 @@ body {
 .deck {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-content: space-between;
+    /* justify-content: space-between;
+    align-content: space-between; */
 }
 
 img {
@@ -64,9 +66,9 @@ img {
 }
 
 .card-icon {
-    font-size: 40px;
+    font-size: calc(22vw / 2);
     position: relative;
-    top: 20px;
+    top: calc(22vw / 4);
 }
 
 .title {
@@ -98,12 +100,12 @@ img {
 }
 /* CARD FLIPPING */
 
-.card-container { 
-  width: 80px;
-  height: 80px;
+.card-container {
+  width: 22vw;
+  height: 22vw;   
   position: relative;
   perspective: 800px;
-  margin-bottom: 5px;
+  margin: auto auto 1.5vw auto;
 }
 
 .card {
@@ -141,9 +143,11 @@ img {
     background: green;
 }
 
-/* MEDIA - medium - big screens */
+ /* MEDIA - medium - big screens */
 
-@media screen and (min-width: 600px) {
+
+
+@media screen and (min-width: 3600px) {
     /* CARD FLIPPING - original*/
     .card-container { 
         width: 200px;

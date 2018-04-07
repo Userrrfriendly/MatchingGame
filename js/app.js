@@ -16,7 +16,6 @@ let game = {
     moves: 0,
     matchedCards: 0,
     score: 3,
-    // seconds: 0,
     totalTime: 0
 };
 let timeoutID;
@@ -301,11 +300,10 @@ CARD STATE:
 
 /* TODO: 
 -add normalize.css
--ask mentors how to calculate height acording to width
--add a google font that will look like its an arcade game
 --THIS IS MUST do something about the setTimeout when the user makes a mistake he can keep flipping cards
---GAMEOVER state is not really usefull
---update moves it is counterintuitive now
---
+--GAMEOVER state is not really usefull 
+    --need to add gameover panel that will slide down with https://daneden.github.io/animate.css/
+    --Need to add @media querries for large screens and whatch out for wide-screens (will vw cause trouble?) 
+--Positioned icons inside card (vertical alignment) with vw- check the original udacity file (just for shits and giggles)
 */
 
