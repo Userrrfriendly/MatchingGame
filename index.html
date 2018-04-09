@@ -6,14 +6,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
-	<link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+	<!-- <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet"> -->
+	<link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
 	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/animate.css">
 	<link rel="stylesheet" href="css/style.css">
 	<title>Matching Game</title>
 </head>
 
 <body>
 	<div class="container">
+		<div class="victory-screen displaced animated ">
+			<div class="wrapper">
+				<h1>Heading1</h1>
+				<button id="new-game">Reset</button>
+			</div>
+		</div>
 		<header>
 			<h1 class="title">Matching Game!</h1>
 			<section class="score-panel">
@@ -29,13 +37,15 @@
 					</li>
 				</ul>
 
-				<p>Moves: 
-					<span class="moves">0</span> Timer: <span class="timer"> 00:00</span> 
-				</p>
+				<div>
+					Moves: <span class="moves">0</span>
+					Timer: <span class="timer">00:00</span> 
+				</div>
 
-				<div class="restart">
+				<div class="restart" title="Restart Game">
 					<i class="fa fa-repeat"></i>
 				</div>
+				<!-- <button>Restart<i class="fa fa-repeat"></i></button> -->
 			</section>
 		</header>
 

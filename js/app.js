@@ -20,11 +20,12 @@ let game = {
 };
 let timeoutID;
 let count = 1;
+let clickBlock = false; //could declare it witout value?
 
 function resetGame() {
     game.state= 'ready';
     game.openedCard= '';
-    game.iconClass= "";
+    game.iconClass= '';
     game.moves= 0;
     game.matchedCards= 0;
     game.score= 3;
@@ -36,13 +37,14 @@ function resetGame() {
     count = 0;
     updateTime();
     clock(false);
+    clickBlock = false;
 }
 
-function checkState(node, iconClass) {
+function updateState(node, iconClass) {
     switch (game.state) {
         //
         case 'ready' :
-            flipCard(node);
+            flipElement(node);
             node.classList.add('open');
             game.state = 'inspection';
             game.openedCard = node;
@@ -53,9 +55,8 @@ function checkState(node, iconClass) {
             updateTime();
             clock(true);
             break;
-        //
         case 'live' :
-            flipCard(node);
+            flipElement(node);
             node.classList.add('open');
             game.state = 'inspection';
             game.openedCard = node;
@@ -65,7 +66,7 @@ function checkState(node, iconClass) {
             document.querySelector('.moves').textContent = game.moves;
             break;
         case 'inspection':
-            flipCard(node);
+            flipElement(node);
             if (game.iconClass === iconClass) {
                 node.classList.add('matched', 'open');
                 game.openedCard.classList.add('matched');
@@ -73,7 +74,6 @@ function checkState(node, iconClass) {
                 game.openedCard = '';
                 game.iconClass = '';
                 game.matchedCards === 7 ? gameOver() : game.matchedCards += 1;
-                // 
             } else {
                 game.openedCard.classList.remove('open');
                 const tempGameValue = game.openedCard //it is here because of the setTimeout
@@ -86,14 +86,14 @@ function checkState(node, iconClass) {
                 game.iconClass = '';
             }
             break;
-        case 'game-over':
-            //need to display a message nothing more maybe a funny animation or smth!
-            clock(false);
-            break;
+        // case 'game-over':
+        //     //need to display a message nothing more maybe a funny animation or smth!
+        //     clock(false);
+        //     break;
     }
 } 
 
-function flipCard(node) {
+function flipElement(node) {
     node.classList.toggle('flipped');
 }
 
@@ -112,6 +112,7 @@ function gameOver() {
     game.totalTime = count;
     clock(false);
     //DO STUFF
+    victoryScreen();
 }
 
 function score() {
@@ -174,7 +175,10 @@ function shuffle(array) {
             </figure>
             <figure class="card-figure back">2</figure>
         </div>
-</section>
+    </section>
+    ...
+    ...
+</div>
 */
 function makeDeck() {
     let deck = document.createElement('div');
@@ -237,14 +241,29 @@ renderDeck();
 // EVENT LISTENERES
 deckContainer.addEventListener('click', cardClick);
 
+
+
 function cardClick(e) {
-    if (e.target.nodeName === 'FIGURE' && e.target.classList.contains('front')) {
-        //PUT AN IF HERE TO CHECK IF IT HAS CLASS '.OPENED' BEFORE PASSING THE NODE TO CHECKSTATE(NODE)
+    if (e.target.nodeName === 'FIGURE' && e.target.classList.contains('front') && clickBlock === false) {
         if (!e.target.parentElement.classList.contains('open')) {
-            checkState(e.target.parentElement, getIconClass(e.target.nextElementSibling.firstElementChild.classList));
+            //if a card is opened disable click untill the animations ends and all cards are facedown
+            if (game.state === 'inspection') {
+                clickBlock = true;
+                let stopClickID = window.setTimeout(stopClick, 800);
+                function stopClick() {
+                    window.clearTimeout(stopClickID);
+                    clickBlock = false;   
+                }
+            }
+            updateState(e.target.parentElement, getIconClass(e.target.nextElementSibling.firstElementChild.classList));
         }
     } 
 }
+
+//if game.state === inspection then and only then the following triggers:
+//  -no click flag is raised
+//  -removeNoClick() is set in action with 500 delay 
+
 
 // const restartIcon2 = document.querySelector('.restart');
 restartIcon.addEventListener('click', function(e) {
@@ -264,7 +283,7 @@ function rotateElement(e) {
     }
 }
 /* 
-CARD STATE:
+GAME STATE:
     *GAME-STATE:LIVE
     *GAME-STATE:INSPECTION {OPEN:'.fa-anchor',var openCard = document... get it from the click event}
     *GAME-STATE:GAME-OVER
@@ -299,11 +318,60 @@ CARD STATE:
  */
 
 /* TODO: 
--add normalize.css
---THIS IS MUST do something about the setTimeout when the user makes a mistake he can keep flipping cards
---GAMEOVER state is not really usefull 
-    --need to add gameover panel that will slide down with https://daneden.github.io/animate.css/
-    --Need to add @media querries for large screens and whatch out for wide-screens (will vw cause trouble?) 
+--STYLE:
+    ~the gameover panel
+    ~cards
+--Need to add @media querries for large screens and whatch out for wide-screens (will vw cause trouble?) 
+--Need to add styling to the whole thing
+--fonts look horrible!
+--change inspection to open-card 
+REFACTIRING:
+*some of your functions are generic (flipCard) and some are specific (resetAnimation)
+*check for e.target vs e.currentTarget(targets the event that has the event listener)
 --Positioned icons inside card (vertical alignment) with vw- check the original udacity file (just for shits and giggles)
+MINOR COSMETICS:
+--add a symbol and styling to upperside of cards
 */
 
+//This function "checks" which Animation End handle the browser accept
+// and assigns it in the constant animationEnd - See https://github.com/daneden/animate.css/issues/644 
+
+const gameOverScreen = document.querySelector('.victory-screen');
+const animationEnd = (function(el) {
+    const animations = {
+      animation: 'animationend',
+      OAnimation: 'oAnimationEnd',
+      MozAnimation: 'mozAnimationEnd',
+      WebkitAnimation: 'webkitAnimationEnd',
+    };
+  
+    for (let t in animations) {
+      if (el.style[t] !== undefined) {
+        return animations[t];
+      }
+    }
+  })(document.createElement('div'));
+
+
+gameOverScreen.addEventListener(animationEnd, resetAnimation);
+
+
+function resetAnimation(e) {
+    //"resets" the element so it can be animated again with a different animation effect
+    gameOverScreen.classList.toggle('displaced');  
+    gameOverScreen.classList.remove('fadeInDown', 'fadeOutUp');
+};
+
+function victoryScreen() {
+    gameOverScreen.classList.add('fadeInDown');
+}
+
+function fadeOutUp() {
+    gameOverScreen.classList.add('fadeOutUp');
+}
+
+// make it play again?
+document.getElementById('new-game').addEventListener('click', function() {
+    renderDeck(); 
+    fadeOutUp();
+})

@@ -14,9 +14,43 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Monoton', cursive;
+    font-family: 'Audiowide', cursive;
+    /* font-family: 'Monoton', cursive; */
     letter-spacing: 0.1rem;
 }
+
+header {
+    margin-bottom: 5px;
+}
+
+.container {
+    position: relative;
+}
+
+.displaced {
+    transform: translateY(-10000px);
+}
+
+.victory-screen {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(120, 44, 44, 1);
+    position: absolute;
+    z-index: 100;
+
+}
+
+.wrapper {
+    text-align: center;
+    position: relative;
+    top: 40vh;
+    /* need to see whats going on in larger screens */
+}
+
+.moves {
+    padding-right: 1vw;
+}
+
 /* Test CSS */
 /* start rotate */
 
@@ -40,6 +74,10 @@ body {
 
 .restart {
     display: inline-block;
+}
+
+.restart:hover {
+    cursor: pointer;
 }
 
 @keyframes rotate-Z {
@@ -73,17 +111,26 @@ img {
 
 .title {
     text-align: center;
+    margin: 0;
+    padding-top: 1rem;
+    font-size: 8vw;
 }
 
 .score-panel {
     text-align: left;
+    width: 97vw;
+    margin: 1rem auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 4vw;
 }
 
 .score-panel .stars {
     margin: 0;
     padding: 0;
     display: inline-block;
-    margin: 0 5px 0 0;
+    margin: 0;
 }
 
 .score-panel .stars li {
@@ -144,7 +191,7 @@ img {
 }
 
  /* MEDIA - medium - big screens */
-
+/* next @media should be at 650 after that you can fix the size */
 
 
 @media screen and (min-width: 3600px) {
