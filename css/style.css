@@ -39,15 +39,16 @@ header {
     background-color: rgba(120, 44, 44, 1);
     position: absolute;
     z-index: 100;
-
 }
 
 .wrapper {
     text-align: center;
     position: relative;
     /* top: 40vh; */
-    top: 50%;  /* position the top  edge of the element at the middle of the parent */
-    left: 50%; /* position the left edge of the element at the middle of the parent */
+    top: 50%;
+    /* position the top  edge of the element at the middle of the parent */
+    left: 50%;
+    /* position the left edge of the element at the middle of the parent */
     transform: translate(-50%, -50%);
     /* need to see whats going on in larger screens */
 }
@@ -57,6 +58,7 @@ header {
 }
 
 /* Test CSS */
+
 /* start rotate */
 
 /* .restart {
@@ -69,9 +71,11 @@ header {
 .rotateIconContainer {
     transform: rotateZ( 360deg );
 }  */
+
 /* 
 
 */
+
 .rotate {
     animation: 0.5s rotate-Z;
     animation-timing-function: linear;
@@ -86,13 +90,22 @@ header {
 }
 
 @keyframes rotate-Z {
-    0%   { transform: rotateZ(0deg ); } 
-    25%  { transform: rotateZ(90deg ); }
-    50%  { transform: rotateZ(180deg ); }
-    75% { transform: rotateZ(270deg ); }
-    100% { transform: rotateZ(360deg ); }
+    0% {
+        transform: rotateZ(0deg);
+    }
+    25% {
+        transform: rotateZ(90deg);
+    }
+    50% {
+        transform: rotateZ(180deg);
+    }
+    75% {
+        transform: rotateZ(270deg);
+    }
+    100% {
+        transform: rotateZ(360deg);
+    }
 }
-
 
 /* end rotate */
 
@@ -150,14 +163,15 @@ img {
 .faded-star {
     color: grey;
 }
+
 /* CARD FLIPPING */
 
 .card-container {
-  width: 22vw;
-  height: 22vw;   
-  position: relative;
-  perspective: 800px;
-  margin: auto auto 1.5vw auto;
+    width: 22vw;
+    height: 22vw;
+    position: relative;
+    perspective: 800px;
+    margin: auto auto 1.5vw auto;
 }
 
 .card {
@@ -166,6 +180,13 @@ img {
     position: absolute;
     transform-style: preserve-3d;
     transition: transform 0.5s;
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border: 1px solid #000000;
+    -webkit-box-shadow: 0px 0px 30px -10px rgba(0,0,0,1);
+    -moz-box-shadow: 0px 0px 30px -10px rgba(0,0,0,1);
+    box-shadow: 0px 0px 30px -10px rgba(0,0,0,1);
 }
 
 .card-figure {
@@ -180,41 +201,161 @@ img {
 
 .front {
     background: red;
-  }
+}
 
 .back {
     background: blue;
-    transform: rotateY( 180deg );
+    transform: rotateY( 180deg);
 }
 
 .flipped {
-    transform: rotateY( 180deg );
+    transform: rotateY( 180deg);
 }
 
 .matched .back {
     background: green;
 }
 
+/*ANIMATE IT  */
 
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
 
+@-webkit-keyframes fadeInDown {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
 
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
 
+.fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+}
 
+@-webkit-keyframes fadeOutUp {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+}
 
+@keyframes fadeOutUp {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+}
 
+.fadeOutUp {
+    -webkit-animation-name: fadeOutUp;
+    animation-name: fadeOutUp;
+}
+
+@-webkit-keyframes tada {
+    from {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+    10%,
+    20% {
+        -webkit-transform: scale3d(0.7, 0.7, 0.7) rotate3d(0, 0, 1, -3deg);
+        transform: scale3d(0.7, 0.7, 0.7) rotate3d(0, 0, 1, -3deg);
+    }
+    30%,
+    50%,
+    70%,
+    90% {
+        -webkit-transform: scale3d(1.05, 1.05, 1.05) rotate3d(0, 0, 1, 3deg);
+        transform: scale3d(1.05, 1.05, 1.05) rotate3d(0, 0, 1, 3deg);
+    }
+    40%,
+    60%,
+    80% {
+        -webkit-transform: scale3d(1.05, 1.05, 1.05) rotate3d(0, 0, 1, -3deg);
+        transform: scale3d(1.05, 1.05, 1.05) rotate3d(0, 0, 1, -3deg);
+    }
+    to {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes tada {
+    from {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+    10%,
+    20% {
+        -webkit-transform: scale3d(0.7, 0.7, 0.7) rotate3d(0, 0, 1, -3deg);
+        transform: scale3d(0.7, 0.7, 0.7) rotate3d(0, 0, 1, -3deg);
+    }
+    30%,
+    50%,
+    70%,
+    90% {
+        -webkit-transform: scale3d(1.05, 1.05, 1.05) rotate3d(0, 0, 1, 3deg);
+        transform: scale3d(1.05, 1.05, 1.05) rotate3d(0, 0, 1, 3deg);
+    }
+    40%,
+    60%,
+    80% {
+        -webkit-transform: scale3d(1.05, 1.05, 1.05) rotate3d(0, 0, 1, -3deg);
+        transform: scale3d(1.05, 1.05, 1.05) rotate3d(0, 0, 1, -3deg);
+    }
+    to {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+.tada {
+    -webkit-animation-name: tada;
+    animation-name: tada;
+}
 
 @media screen and (min-width: 750px) {
     .card-container {
         width: 180px;
-        height: 180px;   
+        height: 180px;
         margin: auto auto 7.5px auto;
-      }
-
+    }
     .title {
         padding-top: 0.25rem;
         font-size: 5rem;
     }
-    
     .score-panel {
         text-align: left;
         width: calc(750px - 0.5vw);
@@ -224,49 +365,36 @@ img {
         justify-content: space-between;
         font-size: 2rem;
     }
-
     .card-icon {
         font-size: calc(180px / 2);
         position: relative;
         top: calc(180px / 4);
     }
-
 }
 
+/* MEDIA - LANDSCAPE ORIENTATION */
 
-
-
-
-
-
-
-
- /* MEDIA - LANDSCAPE ORIENTATION */
- @media print and (orientation: landscape) {
-     .container {
-         /* position: relative;
+@media print and (orientation: landscape) {
+    .container {
+        /* position: relative;
          display: flex;
          flex-wrap: nowrap; */
-         margin: 0 auto;
-         max-width: 55vw;
-     }
-
+        margin: 0 auto;
+        max-width: 55vw;
+    }
     /* header {
         width: 40vw;
         order: -1;
 
     } */
-
-
     .card-container {
         width: 12vw;
-        height: 12vw;   
+        height: 12vw;
         position: relative;
         perspective: 800px;
         margin: auto auto 1.25vw auto;
-      }
-
-      .card-icon {
+    }
+    .card-icon {
         font-size: calc(12vw / 2);
         position: relative;
         top: calc(12vw / 4);
@@ -274,14 +402,12 @@ img {
         be calculated with percenteges .card-container width/height: 24%
         */
     }
-    
     .title {
         text-align: center;
         margin: 0;
         padding-top: 0.25rem;
         font-size: 4.8vw;
     }
-    
     .score-panel {
         text-align: left;
         width: 57.1vw;
@@ -291,50 +417,41 @@ img {
         justify-content: space-between;
         font-size: 2.4vw;
     }
-
-  }
-
+}
 
 /* next @media should be at 650 after that you can fix the size */
 
-
 @media screen and (min-width: 3600px) {
     /* CARD FLIPPING - original*/
-    .card-container { 
+    .card-container {
         width: 200px;
         height: 260px;
         position: relative;
         perspective: 800px;
-      }
-      
-      .card {
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          transform-style: preserve-3d;
-          transition: transform 1s;
-      }
-      
-      .card-figure {
-          margin: 0;
-          display: block;
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          backface-visibility: hidden;
-      }
-      
-      .front {
-          background: red;
-        }
-      
-      .back {
-          background: blue;
-          transform: rotateY( 180deg );
-      }
-      
-      .flipped {
-          transform: rotateY( 180deg );
-      }
-
+    }
+    .card {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        transform-style: preserve-3d;
+        transition: transform 1s;
+    }
+    .card-figure {
+        margin: 0;
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+    }
+    .front {
+        background: red;
+    }
+    .back {
+        background: blue;
+        transform: rotateY( 180deg);
+    }
+    .flipped {
+        transform: rotateY( 180deg);
+    }
 }

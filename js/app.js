@@ -70,6 +70,16 @@ function updateState(node, iconClass) {
             if (game.iconClass === iconClass) {
                 node.classList.add('matched', 'open');
                 game.openedCard.classList.add('matched');
+
+                node.parentElement.classList.add('tada');
+                game.openedCard.parentElement.classList.add('tada');
+
+                // let openedCard = game.openedCard;
+                // setTimeout(function() {
+                //     node.parentElement.classList.add('tada');
+                //     openedCard.parentElement.classList.add('tada');
+                // }, 00)
+                
                 game.state = 'live';
                 game.openedCard = '';
                 game.iconClass = '';
@@ -203,7 +213,7 @@ function makeCard(cardArrayIndex) {
             
      */
     let section = document.createElement('section');
-    section.classList.add('card-container');
+    section.classList.add('card-container', 'animated');
 
     let divCard = document.createElement('div');
     divCard.classList.add('card');
