@@ -1,19 +1,22 @@
-let cardArray = ["fa-diamond", "fa-paper-plane-o","fa-anchor","fa-bolt",
-"fa-cube","fa-leaf","fa-bicycle","fa-bomb","fa-diamond",
-"fa-paper-plane-o","fa-anchor","fa-bolt","fa-cube","fa-leaf","fa-bicycle","fa-bomb"];
+let cardArray = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt",
+    "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb", "fa-diamond",
+    "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"
+];
 const deckContainer = document.querySelector('.deck-container');
 const container = document.querySelector('.container'); //i think its redundant so far
 const restartIcon = document.querySelector('.fa-repeat');
 const timerDisplay = document.querySelector('.timer');
 const scorePanel = document.querySelector('.score-panel');
+const gameOverScreen = document.querySelector('.victory-screen');
 const victoryScore = document.querySelector('.wrapper');
 //any reason why you didnt use querSelectorAll to catch em all? REFACTOR?
 const stars = [document.querySelector('.stars').firstElementChild.firstElementChild,
     document.querySelector('.stars').firstElementChild.nextElementSibling.firstElementChild,
-    document.querySelector('.stars').lastElementChild.firstElementChild]
+    document.querySelector('.stars').lastElementChild.firstElementChild
+];
 let game = {
     state: '',
-    openedCard:'',
+    openedCard: '',
     iconClass: "",
     moves: 0,
     matchedCards: 0,
@@ -22,19 +25,19 @@ let game = {
 };
 let timeoutID;
 let count = 1;
-let clickBlock = false; //could declare it witout value?
+let clickBlock = false;
 
 function resetGame() {
-    game.state= 'ready';
-    game.openedCard= '';
-    game.iconClass= '';
-    game.moves= 0;
-    game.matchedCards= 0;
-    game.score= 3;
-    game.totalTime= 0;
+    game.state = 'ready';
+    game.openedCard = '';
+    game.iconClass = '';
+    game.moves = 0;
+    game.matchedCards = 0;
+    game.score = 3;
+    game.totalTime = 0;
     document.querySelector('.moves').textContent = game.moves;
     document.querySelector('.timer').textContent = game.totalTime
-    for (let i = 1; i <3; i++) {
+    for (let i = 1; i < 3; i++) {
         stars[i].classList.remove('faded-star');
     }
     count = 0;
@@ -45,28 +48,28 @@ function resetGame() {
 
 function updateState(node, iconClass) {
     switch (game.state) {
-        //ready= no moves yet but the game can start by flipping a card (moves===0)
-        //live= at least one card has been flipped (moves>===1)
+        //ready= no moves yet but the game can start by flipping a card (moves === 0)
+        //live= at least one card has been flipped (moves >= 1)
         //open-card=there is a flipped card on the board
-        case 'ready' :
+        case 'ready':
             flipElement(node);
             node.classList.add('open');
             game.state = 'open-card';
             game.openedCard = node;
             game.iconClass = iconClass;
-            game.moves +=1;
+            game.moves += 1;
             score();
             document.querySelector('.moves').textContent = game.moves;
             updateTime();
             clock(true);
             break;
-        case 'live' :
+        case 'live':
             flipElement(node);
             node.classList.add('open');
             game.state = 'open-card';
             game.openedCard = node;
             game.iconClass = iconClass;
-            game.moves +=1;
+            game.moves += 1;
             score();
             document.querySelector('.moves').textContent = game.moves;
             break;
@@ -84,7 +87,7 @@ function updateState(node, iconClass) {
                 //     node.parentElement.classList.add('tada');
                 //     openedCard.parentElement.classList.add('tada');
                 // }, 00)
-                
+
                 game.state = 'live';
                 game.openedCard = '';
                 game.iconClass = '';
@@ -92,21 +95,17 @@ function updateState(node, iconClass) {
             } else {
                 game.openedCard.classList.remove('open');
                 const tempGameValue = game.openedCard //it is here because of the setTimeout
-                setTimeout(function() {
+                setTimeout(function () {
                     tempGameValue.classList.remove('flipped');
                     node.classList.remove('flipped');
-                }, 1000)
+                }, 600)
                 game.openedCard = '';
                 game.state = 'live';
                 game.iconClass = '';
             }
             break;
-        // case 'game-over':
-        //     //need to display a message nothing more maybe a funny animation or smth!
-        //     clock(false);
-        //     break;
     }
-} 
+}
 
 function flipElement(node) {
     node.classList.toggle('flipped');
@@ -126,7 +125,6 @@ function gameOver() {
     console.log('GAME OVER');
     game.totalTime = count;
     clock(false);
-    //DO STUFF
     victoryScreen();
 }
 
@@ -147,6 +145,7 @@ function clock(bool) {
     function startTimer() {
         timeoutID = window.setInterval(updateTime, 1000);
     }
+
     function stopTimer() {
         clearInterval(timeoutID);
         count = 1;
@@ -155,20 +154,20 @@ function clock(bool) {
 
 function updateTime() {
     if (count >= 60) {
-        const mins = Math.trunc(count/60);
+        const mins = Math.trunc(count / 60);
         const secs = count - mins * 60;
         secs < 10 ? timerDisplay.textContent = mins + ':0' + secs : timerDisplay.textContent = mins + ':' + secs;
-        count +=1;
+        count += 1;
     } else {
         count < 10 ? timerDisplay.textContent = '00:0' + count : timerDisplay.textContent = '00:' + count;
         count += 1;
     }
 }
 
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length,
+        temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -183,12 +182,12 @@ function shuffle(array) {
 
 /* Make deck creates the following block of elements:
 <div class="deck">
-    <section class="card-container">
+    <section class="card-container animated">
         <div class="card">
-            <figure class="card-figure front">
-                <i class="fa fa-diamond card-icon"></i>
+            <figure class="card-figure front"></figure>
+            <figure class="card-figure back">
+                <i class="fa fa-leaf card-icon"></i>
             </figure>
-            <figure class="card-figure back"></figure>
         </div>
     </section>
     ...
@@ -213,8 +212,8 @@ function makeDeck() {
     for (let i = 0; i < cardArray.length; i++) {
         divFragment.appendChild(makeCard(i));
     }
-   deck.appendChild(divFragment);
-   return deck;
+    deck.appendChild(divFragment);
+    return deck;
 }
 
 function makeCard(cardArrayIndex) {
@@ -249,7 +248,7 @@ function makeCard(cardArrayIndex) {
     return section;
 }
 
-function renderDeck() { 
+function renderDeck() {
     const deck = document.querySelector('.deck');
     if (deck) {
         deck.remove();
@@ -267,70 +266,39 @@ renderDeck();
 // EVENT LISTENERES
 deckContainer.addEventListener('click', cardClick);
 
-
-
 function cardClick(e) {
     if (e.target.nodeName === 'FIGURE' && e.target.classList.contains('front') && clickBlock === false) {
         if (!e.target.parentElement.classList.contains('open')) {
             //if a card is opened disable click untill the animations ends and all cards are facedown
             if (game.state === 'open-card') {
                 clickBlock = true;
-                let stopClickID = window.setTimeout(stopClick, 800);
+                let stopClickID = window.setTimeout(stopClick, 600);
+
                 function stopClick() {
                     window.clearTimeout(stopClickID);
-                    clickBlock = false;   
+                    clickBlock = false;
                 }
             }
             updateState(e.target.parentElement, getIconClass(e.target.nextElementSibling.firstElementChild.classList));
         }
-    } 
+    }
 }
 
-//if game.state === open-card then and only then the following triggers:
-//  -no click flag is raised
-//  -removeNoClick() is set in action with 500 delay 
-
-
 // const restartIcon2 = document.querySelector('.restart');
-restartIcon.addEventListener('click', function(e) {
+restartIcon.addEventListener('click', function (e) {
     rotateElement(e);
-    renderDeck();  
+    renderDeck();
 });
 
-
 function rotateElement(e) {
-    if(!e.target.classList.contains('rotate')) {
+    if (!e.target.classList.contains('rotate')) {
         e.target.classList.add('rotate');
         e.target.parentElement.classList.remove('rotate');
-    } 
-    else {
+    } else {
         e.target.classList.remove('rotate');
         e.target.parentElement.classList.add('rotate');
     }
 }
-/* 
-GAME STATE:
-    *GAME-STATE:LIVE
-    *GAME-STATE:open-card {OPEN:'.fa-anchor',var openCard = document... get it from the click event}
-    *GAME-STATE:GAME-OVER
-    
-    CARD:
-    -CLOSED
-        ~OPEN THIS: ADD CLASS .OPENED THO THIS
-            *game.state = 'opened-card'
-            *game.card = e.target...
-            *game.iconClass = e....
-            *game.moves +=1
-    
-        ~IF THIS CARD MATCHES THE CARD IN THE GAME-STATE:
-            ~TRUE: ADD CLASS .MATCHED TO THIS AND THE CARD IN THE GAME-STATE
-                *state='live'
-                *
-            ~FALSE: CLOSE IT ----STATE BECOMES LIVE
-        ~DO NOTHING
-
-
-*/
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -344,45 +312,38 @@ GAME STATE:
  */
 
 /* TODO: 
---STYLE:
-    ~the gameover panel
-    ~cards
---change open-card to open-card 
-
+    *Arrange order of code to ensure redability
+    *Fix the Screen on Laptop
 REFACTIRING:
 *some of your functions are generic (flipCard) and some are specific (resetAnimation)
 *check for e.target vs e.currentTarget(targets the event that has the event listener)
 --Positioned icons inside card (vertical alignment) with vw- check the original udacity file (just for shits and giggles)
 MINOR COSMETICS:
---add a symbol and styling to upperside of cards
+--think about adding negative padding on the .deck for medium screens
 */
 
 //This function "checks" which Animation End handle the browser accept
 // and assigns it in the constant animationEnd - See https://github.com/daneden/animate.css/issues/644 
-
-const gameOverScreen = document.querySelector('.victory-screen');
-const animationEnd = (function(el) {
+const animationEnd = (function (el) {
     const animations = {
-      animation: 'animationend',
-      OAnimation: 'oAnimationEnd',
-      MozAnimation: 'mozAnimationEnd',
-      WebkitAnimation: 'webkitAnimationEnd',
+        animation: 'animationend',
+        OAnimation: 'oAnimationEnd',
+        MozAnimation: 'mozAnimationEnd',
+        WebkitAnimation: 'webkitAnimationEnd',
     };
-  
-    for (let t in animations) {
-      if (el.style[t] !== undefined) {
-        return animations[t];
-      }
-    }
-  })(document.createElement('div'));
 
+    for (let t in animations) {
+        if (el.style[t] !== undefined) {
+            return animations[t];
+        }
+    }
+})(document.createElement('div'));
 
 gameOverScreen.addEventListener(animationEnd, resetAnimation);
 
-
 function resetAnimation(e) {
     //"resets" the element so it can be animated again with a different animation effect
-    gameOverScreen.classList.toggle('displaced');  
+    gameOverScreen.classList.toggle('displaced');
     gameOverScreen.classList.remove('fadeInDown', 'fadeOutUp');
 };
 
@@ -394,21 +355,13 @@ function victoryScreen() {
     document.querySelector('.game-stats').textContent = gameStats;
     document.querySelector('.game-stats').insertAdjacentElement('afterend', scoreClone);
     gameOverScreen.classList.add('fadeInDown');
-    // if (victoryScore.lastElementChild.classList.contains('score-panel')) {
-    //     victoryScore.lastElementChild.remove();
-    //     victoryScore.appendChild(scoreClone);
-    // } else {
-    //     victoryScore.appendChild(scoreClone);
-    // }
 }
 
 function fadeOutUp() {
     gameOverScreen.classList.add('fadeOutUp');
-    console.log('hello from fadeoutUP, just removed last elementChild: ' + victoryScore.lastElementChild.classList)
 };
 
-// make it play again?
-document.querySelector('.new-game').addEventListener('click', function() {
+document.querySelector('.new-game').addEventListener('click', function () {
     fadeOutUp();
     document.querySelector('.score-stars').remove();
     renderDeck();

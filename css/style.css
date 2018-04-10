@@ -1,11 +1,13 @@
 html {
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 *,
 *::before,
 *::after {
-    box-sizing: inherit;
+    -webkit-box-sizing: inherit;
+            box-sizing: inherit;
 }
 
 html,
@@ -17,7 +19,8 @@ body {
     font-family: 'Audiowide', cursive;
     /* font-family: 'Monoton', cursive; */
     letter-spacing: 0.1rem;
-    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    background: #ffffff url('../img/geometry2.png');
+    /* Background pattern from Subtle Patterns */
     background-color: whitesmoke;
 }
 
@@ -31,12 +34,12 @@ header {
     margin: 0 auto;
     background-color: white;
     -webkit-box-shadow: 0px 30px 25px 6px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0px 30px 25px 6px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 30px 25px 6px rgba(0, 0, 0, 0.3);
 }
 
 .displaced {
-    transform: translateY(-10000px);
+    -webkit-transform: translateY(-10000px);
+            transform: translateY(-10000px);
 }
 
 .victory-screen {
@@ -50,14 +53,6 @@ header {
 .wrapper {
     text-align: center;
     margin-top: 2rem;
-    /* position: relative; */
-    /* top: 40vh; */
-    /* top: 50%; */
-    /* position the top  edge of the element at the middle of the parent */
-    /* left: 50%; */
-    /* position the left edge of the element at the middle of the parent */
-    /* transform: translate(-50%, -50%); */
-    /* need to see whats going on in larger screens */
 }
 
 .new-game {
@@ -72,24 +67,12 @@ header {
 
 /* start rotate */
 
-/* .restart {
-    transition: transform 0.6s linear;
-    display: inline-block;
-}
-.rotateIcon {
-    transform: rotateZ( 360deg );
-}
-.rotateIconContainer {
-    transform: rotateZ( 360deg );
-}  */
-
-/* 
-
-*/
 
 .rotate {
-    animation: 0.5s rotate-Z;
-    animation-timing-function: linear;
+    -webkit-animation: 0.5s rotate-Z;
+            animation: 0.5s rotate-Z;
+    -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
 }
 
 .restart {
@@ -100,29 +83,60 @@ header {
     cursor: pointer;
 }
 
-@keyframes rotate-Z {
+@-webkit-keyframes rotate-Z {
     0% {
-        transform: rotateZ(0deg);
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg);
     }
     25% {
-        transform: rotateZ(90deg);
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg);
     }
     50% {
-        transform: rotateZ(180deg);
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg);
     }
     75% {
-        transform: rotateZ(270deg);
+        -webkit-transform: rotateZ(270deg);
+                transform: rotateZ(270deg);
     }
     100% {
-        transform: rotateZ(360deg);
+        -webkit-transform: rotateZ(360deg);
+                transform: rotateZ(360deg);
+    }
+}
+
+@keyframes rotate-Z {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+                transform: rotateZ(0deg);
+    }
+    25% {
+        -webkit-transform: rotateZ(90deg);
+                transform: rotateZ(90deg);
+    }
+    50% {
+        -webkit-transform: rotateZ(180deg);
+                transform: rotateZ(180deg);
+    }
+    75% {
+        -webkit-transform: rotateZ(270deg);
+                transform: rotateZ(270deg);
+    }
+    100% {
+        -webkit-transform: rotateZ(360deg);
+                transform: rotateZ(360deg);
     }
 }
 
 /* end rotate */
 
 .deck {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
     /* justify-content: space-between;
     align-content: space-between; */
 }
@@ -149,9 +163,14 @@ img {
     text-align: left;
     width: 97vw;
     margin: 1rem auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     font-size: 4vw;
 }
 
@@ -179,13 +198,15 @@ img {
     margin-bottom: 1.5rem;
     font-size: 3rem;
 }
+
 /* CARD FLIPPING */
 
 .card-container {
     width: 22vw;
     height: 22vw;
     position: relative;
-    perspective: 800px;
+    -webkit-perspective: 800px;
+            perspective: 800px;
     margin: auto auto 1.5vw auto;
 }
 
@@ -193,15 +214,18 @@ img {
     width: 100%;
     height: 100%;
     position: absolute;
-    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: -webkit-transform 0.5s;
     transition: transform 0.5s;
+    transition: transform 0.5s, -webkit-transform 0.5s;
     border-radius: 5px 5px 5px 5px;
     -moz-border-radius: 5px 5px 5px 5px;
     -webkit-border-radius: 5px 5px 5px 5px;
     border: 1px solid #000000;
-    -webkit-box-shadow: 0px 0px 30px -10px rgba(0,0,0,1);
-    -moz-box-shadow: 0px 0px 30px -10px rgba(0,0,0,1);
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 0px 30px -10px rgba(0, 0, 0, 1);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 }
 
 .card-figure {
@@ -210,7 +234,8 @@ img {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
     text-align: center;
     border-radius: 5px 5px 5px 5px;
     -moz-border-radius: 5px 5px 5px 5px;
@@ -219,36 +244,29 @@ img {
 }
 
 .front {
-    /* background: red; */
-    /* background-image: url("../img/wood2_embosed_clouds.jpg"); */
-    background: rgb(242,200,191);
-    background: -moz-radial-gradient(center, ellipse cover, rgba(242,200,191,1) 0%, rgba(191,103,91,1) 100%);
-    background: -webkit-radial-gradient(center, ellipse cover, rgba(242,200,191,1) 0%,rgba(191,103,91,1) 100%);
-    background: radial-gradient(ellipse at center, rgba(242,200,191,1) 0%,rgba(191,103,91,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2c8bf', endColorstr='#bf675b',GradientType=1 );
-
+    background: rgb(242, 200, 191);
+    background: radial-gradient(ellipse at center, rgba(242, 200, 191, 1) 0%, rgba(191, 103, 91, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2c8bf', endColorstr='#bf675b', GradientType=1);
 }
 
 .back {
     /* background: blue; */
-    background: rgb(150,178,149);
-    background: -moz-radial-gradient(center, ellipse cover, rgba(150,178,149,1) 0%, rgba(75,30,255,1) 100%);
-    background: -webkit-radial-gradient(center, ellipse cover, rgba(150,178,149,1) 0%,rgba(75,30,255,1) 100%);
-    background: radial-gradient(ellipse at center, rgba(150,178,149,1) 0%,rgba(75,30,255,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#96b295', endColorstr='#4b1eff',GradientType=1 );
-    transform: rotateY( 180deg);
+    background: rgb(150, 178, 149);
+    background: radial-gradient(ellipse at center, rgba(150, 178, 149, 1) 0%, rgba(75, 30, 255, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#96b295', endColorstr='#4b1eff', GradientType=1);
+    -webkit-transform: rotateY( 180deg);
+            transform: rotateY( 180deg);
 }
 
 .flipped {
-    transform: rotateY( 180deg);
+    -webkit-transform: rotateY( 180deg);
+            transform: rotateY( 180deg);
 }
 
 .matched .back {
-    background: rgb(150,178,149);
-    background: -moz-radial-gradient(center, ellipse cover, rgba(150,178,149,1) 0%, rgba(30,255,38,1) 100%);
-    background: -webkit-radial-gradient(center, ellipse cover, rgba(150,178,149,1) 0%,rgba(30,255,38,1) 100%);
-    background: radial-gradient(ellipse at center, rgba(150,178,149,1) 0%,rgba(30,255,38,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#96b295', endColorstr='#1eff26',GradientType=1 );
+    background: rgb(150, 178, 149);
+    background: radial-gradient(ellipse at center, rgba(150, 178, 149, 1) 0%, rgba(30, 255, 38, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#96b295', endColorstr='#1eff26', GradientType=1);
 }
 
 /*ANIMATE IT  */
@@ -395,9 +413,14 @@ img {
         text-align: left;
         width: calc(750px - 0.5vw);
         margin: 0.25rem auto 1rem;
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
         font-size: 2rem;
     }
     .card-icon {
