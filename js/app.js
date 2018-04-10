@@ -5,6 +5,8 @@ const deckContainer = document.querySelector('.deck-container');
 const container = document.querySelector('.container'); //i think its redundant so far
 const restartIcon = document.querySelector('.fa-repeat');
 const timerDisplay = document.querySelector('.timer');
+const scorePanel = document.querySelector('.score-panel');
+const victoryScore = document.querySelector('.wrapper');
 //any reason why you didnt use querSelectorAll to catch em all? REFACTOR?
 const stars = [document.querySelector('.stars').firstElementChild.firstElementChild,
     document.querySelector('.stars').firstElementChild.nextElementSibling.firstElementChild,
@@ -31,6 +33,7 @@ function resetGame() {
     game.score= 3;
     game.totalTime= 0;
     document.querySelector('.moves').textContent = game.moves;
+    document.querySelector('.timer').textContent = game.totalTime
     for (let i = 1; i <3; i++) {
         stars[i].classList.remove('faded-star');
     }
@@ -42,11 +45,13 @@ function resetGame() {
 
 function updateState(node, iconClass) {
     switch (game.state) {
-        //
+        //ready= no moves yet but the game can start by flipping a card (moves===0)
+        //live= at least one card has been flipped (moves>===1)
+        //open-card=there is a flipped card on the board
         case 'ready' :
             flipElement(node);
             node.classList.add('open');
-            game.state = 'inspection';
+            game.state = 'open-card';
             game.openedCard = node;
             game.iconClass = iconClass;
             game.moves +=1;
@@ -58,14 +63,14 @@ function updateState(node, iconClass) {
         case 'live' :
             flipElement(node);
             node.classList.add('open');
-            game.state = 'inspection';
+            game.state = 'open-card';
             game.openedCard = node;
             game.iconClass = iconClass;
             game.moves +=1;
             score();
             document.querySelector('.moves').textContent = game.moves;
             break;
-        case 'inspection':
+        case 'open-card':
             flipElement(node);
             if (game.iconClass === iconClass) {
                 node.classList.add('matched', 'open');
@@ -183,12 +188,23 @@ function shuffle(array) {
             <figure class="card-figure front">
                 <i class="fa fa-diamond card-icon"></i>
             </figure>
-            <figure class="card-figure back">2</figure>
+            <figure class="card-figure back"></figure>
         </div>
     </section>
     ...
     ...
 </div>
+*/
+
+/* card creates:
+<section class="card-container animated">
+	<div class="card">
+		<figure class="card-figure front"></figure>
+		<figure class="card-figure back">
+			<i class="fa fa-leaf card-icon"></i>
+		</figure>
+	</div>
+</section>
 */
 function makeDeck() {
     let deck = document.createElement('div');
@@ -257,7 +273,7 @@ function cardClick(e) {
     if (e.target.nodeName === 'FIGURE' && e.target.classList.contains('front') && clickBlock === false) {
         if (!e.target.parentElement.classList.contains('open')) {
             //if a card is opened disable click untill the animations ends and all cards are facedown
-            if (game.state === 'inspection') {
+            if (game.state === 'open-card') {
                 clickBlock = true;
                 let stopClickID = window.setTimeout(stopClick, 800);
                 function stopClick() {
@@ -270,7 +286,7 @@ function cardClick(e) {
     } 
 }
 
-//if game.state === inspection then and only then the following triggers:
+//if game.state === open-card then and only then the following triggers:
 //  -no click flag is raised
 //  -removeNoClick() is set in action with 500 delay 
 
@@ -295,7 +311,7 @@ function rotateElement(e) {
 /* 
 GAME STATE:
     *GAME-STATE:LIVE
-    *GAME-STATE:INSPECTION {OPEN:'.fa-anchor',var openCard = document... get it from the click event}
+    *GAME-STATE:open-card {OPEN:'.fa-anchor',var openCard = document... get it from the click event}
     *GAME-STATE:GAME-OVER
     
     CARD:
@@ -331,7 +347,7 @@ GAME STATE:
 --STYLE:
     ~the gameover panel
     ~cards
---change inspection to open-card 
+--change open-card to open-card 
 
 REFACTIRING:
 *some of your functions are generic (flipCard) and some are specific (resetAnimation)
@@ -339,8 +355,6 @@ REFACTIRING:
 --Positioned icons inside card (vertical alignment) with vw- check the original udacity file (just for shits and giggles)
 MINOR COSMETICS:
 --add a symbol and styling to upperside of cards
---add animation on card match
---center the contents of victory-screen with that:https://stackoverflow.com/questions/8508275/how-to-center-a-position-absolute-element
 */
 
 //This function "checks" which Animation End handle the browser accept
@@ -373,15 +387,29 @@ function resetAnimation(e) {
 };
 
 function victoryScreen() {
+    const scoreClone = scorePanel.firstElementChild.cloneNode(true);
+    scoreClone.classList.add('score-stars');
+    const gameStats = `It took you ${game.moves} moves and ${game.totalTime} seconds
+     to finish the game with a score of ${game.score} stars`;
+    document.querySelector('.game-stats').textContent = gameStats;
+    document.querySelector('.game-stats').insertAdjacentElement('afterend', scoreClone);
     gameOverScreen.classList.add('fadeInDown');
+    // if (victoryScore.lastElementChild.classList.contains('score-panel')) {
+    //     victoryScore.lastElementChild.remove();
+    //     victoryScore.appendChild(scoreClone);
+    // } else {
+    //     victoryScore.appendChild(scoreClone);
+    // }
 }
 
 function fadeOutUp() {
     gameOverScreen.classList.add('fadeOutUp');
-}
+    console.log('hello from fadeoutUP, just removed last elementChild: ' + victoryScore.lastElementChild.classList)
+};
 
 // make it play again?
-document.getElementById('new-game').addEventListener('click', function() {
-    renderDeck(); 
+document.querySelector('.new-game').addEventListener('click', function() {
     fadeOutUp();
-})
+    document.querySelector('.score-stars').remove();
+    renderDeck();
+});
