@@ -5,7 +5,7 @@ const deckContainer = document.querySelector('.deck-container');
 const container = document.querySelector('.container'); //i think its redundant so far
 const restartIcon = document.querySelector('.fa-repeat');
 const timerDisplay = document.querySelector('.timer');
-//any reason why you didnt use querSelectorAll to catch em all? REFACTOR
+//any reason why you didnt use querSelectorAll to catch em all? REFACTOR?
 const stars = [document.querySelector('.stars').firstElementChild.firstElementChild,
     document.querySelector('.stars').firstElementChild.nextElementSibling.firstElementChild,
     document.querySelector('.stars').lastElementChild.firstElementChild]
@@ -166,7 +166,7 @@ function shuffle(array) {
     return array;
 }
 
-/*
+/* Make deck creates the following block of elements:
 <div class="deck">
     <section class="card-container">
         <div class="card">
@@ -321,16 +321,16 @@ GAME STATE:
 --STYLE:
     ~the gameover panel
     ~cards
---Need to add @media querries for large screens and whatch out for wide-screens (will vw cause trouble?) 
---Need to add styling to the whole thing
---fonts look horrible!
 --change inspection to open-card 
+
 REFACTIRING:
 *some of your functions are generic (flipCard) and some are specific (resetAnimation)
 *check for e.target vs e.currentTarget(targets the event that has the event listener)
 --Positioned icons inside card (vertical alignment) with vw- check the original udacity file (just for shits and giggles)
 MINOR COSMETICS:
 --add a symbol and styling to upperside of cards
+--add animation on card match
+--center the contents of victory-screen with that:https://stackoverflow.com/questions/8508275/how-to-center-a-position-absolute-element
 */
 
 //This function "checks" which Animation End handle the browser accept
