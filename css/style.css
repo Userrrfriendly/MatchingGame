@@ -19,7 +19,7 @@ body {
     font-family: 'Audiowide', cursive;
     /* font-family: 'Monoton', cursive; */
     letter-spacing: 0.1rem;
-    background: #ffffff url('../img/geometry2.png');
+    background: #ffffff url('../img/hypnotize.png');
     /* Background pattern from Subtle Patterns */
     background-color: whitesmoke;
 }
@@ -63,10 +63,7 @@ header {
     padding-right: 1vw;
 }
 
-/* Test CSS */
-
 /* start rotate */
-
 
 .rotate {
     -webkit-animation: 0.5s rotate-Z;
@@ -264,9 +261,9 @@ img {
 }
 
 .matched .back {
-    background: rgb(150, 178, 149);
-    background: radial-gradient(ellipse at center, rgba(150, 178, 149, 1) 0%, rgba(30, 255, 38, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#96b295', endColorstr='#1eff26', GradientType=1);
+    background: #fefefd;
+    background: radial-gradient(ellipse at center, #fefefd 0%,#7bd66d 47%,#25cc00 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefd', endColorstr='#25cc00',GradientType=1 );
 }
 
 /*ANIMATE IT  */
