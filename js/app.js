@@ -26,6 +26,22 @@ let game = {
 let timeoutID;
 let count = 1;
 let clickBlock = false;
+//this "checks" which Animation End handle the browser accept
+// and assigns it in the constant animationEnd - See https://github.com/daneden/animate.css/issues/644 
+const animationEnd = (function (el) {
+    const animations = {
+        animation: 'animationend',
+        OAnimation: 'oAnimationEnd',
+        MozAnimation: 'mozAnimationEnd',
+        WebkitAnimation: 'webkitAnimationEnd',
+    };
+
+    for (let t in animations) {
+        if (el.style[t] !== undefined) {
+            return animations[t];
+        }
+    }
+})(document.createElement('div'));
 
 function resetGame() {
     game.state = 'ready';
@@ -81,12 +97,6 @@ function updateState(node, iconClass) {
 
                 node.parentElement.classList.add('tada');
                 game.openedCard.parentElement.classList.add('tada');
-
-                // let openedCard = game.openedCard;
-                // setTimeout(function() {
-                //     node.parentElement.classList.add('tada');
-                //     openedCard.parentElement.classList.add('tada');
-                // }, 00)
 
                 game.state = 'live';
                 game.openedCard = '';
@@ -180,7 +190,7 @@ function shuffle(array) {
     return array;
 }
 
-/* Make deck creates the following block of elements:
+/* makeDeck() creates the following block of elements:
 <div class="deck">
     <section class="card-container animated">
         <div class="card">
@@ -195,7 +205,7 @@ function shuffle(array) {
 </div>
 */
 
-/* card creates:
+/* makeCard() creates:
 <section class="card-container animated">
 	<div class="card">
 		<figure class="card-figure front"></figure>
@@ -205,6 +215,7 @@ function shuffle(array) {
 	</div>
 </section>
 */
+
 function makeDeck() {
     let deck = document.createElement('div');
     deck.classList.add('deck');
@@ -313,31 +324,15 @@ function rotateElement(e) {
 
 /* TODO: 
     *Arrange order of code to ensure redability
-    *Fix the Screen on Laptop
+
 REFACTIRING:
 *some of your functions are generic (flipCard) and some are specific (resetAnimation)
 *check for e.target vs e.currentTarget(targets the event that has the event listener)
 --Positioned icons inside card (vertical alignment) with vw- check the original udacity file (just for shits and giggles)
-MINOR COSMETICS:
---think about adding negative padding on the .deck for medium screens
+
 */
 
-//This function "checks" which Animation End handle the browser accept
-// and assigns it in the constant animationEnd - See https://github.com/daneden/animate.css/issues/644 
-const animationEnd = (function (el) {
-    const animations = {
-        animation: 'animationend',
-        OAnimation: 'oAnimationEnd',
-        MozAnimation: 'mozAnimationEnd',
-        WebkitAnimation: 'webkitAnimationEnd',
-    };
 
-    for (let t in animations) {
-        if (el.style[t] !== undefined) {
-            return animations[t];
-        }
-    }
-})(document.createElement('div'));
 
 gameOverScreen.addEventListener(animationEnd, resetAnimation);
 
