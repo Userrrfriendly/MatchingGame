@@ -305,3 +305,8 @@ document.querySelector('.new-game').addEventListener('click', function () {
     document.querySelector('.score-stars').remove();
     renderDeck(cardArray);
 });
+
+/* TODO:
+-(Implement a leaderboard, store game state using local storage, etc.)
+Implement (keyboard shortcuts for gameplay, etc).
+*/
