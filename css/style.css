@@ -17,15 +17,14 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Audiowide', cursive;
-    /* font-family: 'Monoton', cursive; */
     letter-spacing: 0.1rem;
     background: #ffffff url('../img/hypnotize.png');
-    /* Background pattern from Subtle Patterns */
     background-color: whitesmoke;
 }
 
-header {
-    margin-bottom: 5px;
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 .container {
@@ -36,116 +35,10 @@ header {
     box-shadow: 0px 30px 25px 6px rgba(0, 0, 0, 0.3);
 }
 
-.displaced {
-    -webkit-transform: translateY(-10000px);
-    transform: translateY(-10000px);
-}
+/* HEADER */
 
-.victory-screen {
-    width: 100%;
-    height: 100%;
-    background-color: whitesmoke;
-    position: absolute;
-    z-index: 100;
-}
-
-.wrapper {
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.new-game {
-    border-radius: 5px;
-}
-
-.moves {
-    padding-right: 1vw;
-}
-
-/* start rotate */
-
-.rotate {
-    -webkit-animation: 0.5s rotate-Z;
-    animation: 0.5s rotate-Z;
-    -webkit-animation-timing-function: linear;
-    animation-timing-function: linear;
-}
-
-.restart {
-    display: inline-block;
-}
-
-.restart:hover {
-    cursor: pointer;
-}
-
-@-webkit-keyframes rotate-Z {
-    0% {
-        -webkit-transform: rotateZ(0deg);
-        transform: rotateZ(0deg);
-    }
-    25% {
-        -webkit-transform: rotateZ(90deg);
-        transform: rotateZ(90deg);
-    }
-    50% {
-        -webkit-transform: rotateZ(180deg);
-        transform: rotateZ(180deg);
-    }
-    75% {
-        -webkit-transform: rotateZ(270deg);
-        transform: rotateZ(270deg);
-    }
-    100% {
-        -webkit-transform: rotateZ(360deg);
-        transform: rotateZ(360deg);
-    }
-}
-
-@keyframes rotate-Z {
-    0% {
-        -webkit-transform: rotateZ(0deg);
-        transform: rotateZ(0deg);
-    }
-    25% {
-        -webkit-transform: rotateZ(90deg);
-        transform: rotateZ(90deg);
-    }
-    50% {
-        -webkit-transform: rotateZ(180deg);
-        transform: rotateZ(180deg);
-    }
-    75% {
-        -webkit-transform: rotateZ(270deg);
-        transform: rotateZ(270deg);
-    }
-    100% {
-        -webkit-transform: rotateZ(360deg);
-        transform: rotateZ(360deg);
-    }
-}
-
-/* end rotate */
-
-.deck {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    /* justify-content: space-between;
-    align-content: space-between; */
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-.card-icon {
-    font-size: calc(22vw / 2);
-    position: relative;
-    top: 25%;
+header {
+    margin-bottom: 5px;
 }
 
 .title {
@@ -190,12 +83,56 @@ img {
     color: grey;
 }
 
+.moves {
+    padding-right: 1vw;
+}
+
+.restart {
+    display: inline-block;
+}
+
+.restart:hover {
+    cursor: pointer;
+}
+
+/* VICTORY SCREEN (HEADER)*/
+
+.victory-screen {
+    width: 100%;
+    height: 100%;
+    background-color: whitesmoke;
+    position: absolute;
+    z-index: 100;
+}
+
+.displaced {
+    -webkit-transform: translateY(-10000px);
+    transform: translateY(-10000px);
+}
+
+.wrapper {
+    text-align: center;
+    margin-top: 2rem;
+}
+
 .score-stars {
     margin-bottom: 1.5rem;
     font-size: 3rem;
 }
 
-/* CARD FLIPPING */
+.new-game {
+    border-radius: 5px;
+}
+
+/* DECK CONTAINER */
+
+.deck {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
 
 .card-container {
     width: 22vw;
@@ -254,9 +191,10 @@ img {
     transform: rotateY( 180deg);
 }
 
-.flipped {
-    -webkit-transform: rotateY( 180deg);
-    transform: rotateY( 180deg);
+.card-icon {
+    font-size: calc(22vw / 2);
+    position: relative;
+    top: 25%;
 }
 
 .matched .back {
@@ -265,7 +203,67 @@ img {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefd', endColorstr='#25cc00', GradientType=1);
 }
 
-/*ANIMATE IT  */
+/* ANIMATIONS */
+
+.rotate {
+    -webkit-animation: 0.5s rotate-Z;
+    animation: 0.5s rotate-Z;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+}
+
+@-webkit-keyframes rotate-Z {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+    }
+    25% {
+        -webkit-transform: rotateZ(90deg);
+        transform: rotateZ(90deg);
+    }
+    50% {
+        -webkit-transform: rotateZ(180deg);
+        transform: rotateZ(180deg);
+    }
+    75% {
+        -webkit-transform: rotateZ(270deg);
+        transform: rotateZ(270deg);
+    }
+    100% {
+        -webkit-transform: rotateZ(360deg);
+        transform: rotateZ(360deg);
+    }
+}
+
+@keyframes rotate-Z {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+    }
+    25% {
+        -webkit-transform: rotateZ(90deg);
+        transform: rotateZ(90deg);
+    }
+    50% {
+        -webkit-transform: rotateZ(180deg);
+        transform: rotateZ(180deg);
+    }
+    75% {
+        -webkit-transform: rotateZ(270deg);
+        transform: rotateZ(270deg);
+    }
+    100% {
+        -webkit-transform: rotateZ(360deg);
+        transform: rotateZ(360deg);
+    }
+}
+
+.flipped {
+    -webkit-transform: rotateY( 180deg);
+    transform: rotateY( 180deg);
+}
+
+/*ANIMATIONS FROM ANIMATE.CSS*/
 
 .animated {
     -webkit-animation-duration: 1s;
@@ -395,7 +393,7 @@ img {
     animation-name: tada;
 }
 
-/* @MEDIA QUERRIES */
+/* @MEDIA QUERIES */
 
 @media screen and (orientation: landscape) and (max-height: 900px) {
     .container {
@@ -412,9 +410,6 @@ img {
     .card-container {
         width: 21%;
         height: 23.3%;
-        position: relative;
-        -webkit-perspective: 800px;
-        perspective: 800px;
         margin: auto auto 1.5% auto;
     }
     .card-icon {
