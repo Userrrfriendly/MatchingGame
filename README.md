@@ -10,4 +10,8 @@ Udacity FEND Project - Matching Cards Game.
     - Total time (in seconds) that took the player to beat the game.
     - Score (3 to 1 stars) depending on the number of moves made.
 
+### Playing the game:
+- To play the game click [here](https://userrrfriendly.github.io/MatchingGame/) 
+- Alternatively you can clone or download this repository and open index.html
+
 ### Dependancies: None - it's just plain javascript.  
